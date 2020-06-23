@@ -1,7 +1,7 @@
 const express = require('express')
 const pool = require('./db')
 const app = express()
-const port = 5000
+const port = 3307
 
 // expose an endpoint "people"
 app.get('/people', async (req, res) => {
