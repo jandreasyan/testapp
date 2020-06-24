@@ -6,7 +6,7 @@ const pool = mariadb.createPool({
   host: "127.0.0.1", 
   user: "jul", 
   password: "studilink",
-  database: "demo1"
+  database: "demo"
 });
 
 // expose the ability to create new connections
