@@ -34,7 +34,7 @@ app.get('/cours', async (req, res) => {
 // GET (one) request
 
 app.get('/cours/:id', async (req, res) => {
-	
+
     let conn;
     try {
         // establish a connection to MariaDB
@@ -59,7 +59,7 @@ app.get('/cours/:id', async (req, res) => {
 // POST request
 
 app.post('/cours', async(req, res, next)=>{
-	
+
 	conn = await pool.getConnection();
 
 	const category = req.body.category;
@@ -78,10 +78,10 @@ app.post('/cours', async(req, res, next)=>{
 	next();
 
 });
-	
+
 // Delete request
 
-app.get('/cours/:id', async (req, res) => {
+app.delete('/cours/:id', async (req, res) => {
     let conn;
     try {
         // establish a connection to MariaDB
