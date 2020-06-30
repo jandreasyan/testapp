@@ -79,6 +79,29 @@ app.post('/cours', async(req, res, next)=>{
 
 });
 	
+// Delete request
+
+app.get('/cours/:id', async (req, res) => {
+    let conn;
+    try {
+        // establish a connection to MariaDB
+        conn = await pool.getConnection();
+
+        // create a new query
+        var query = "DELETE FROM cours WHERE id = ?";
+
+        // execute the query and set the result to a new variable
+        var rows = await conn.query(query, [id]);
+
+        // return the results
+        res.send(rows);
+    } catch (err) {
+        throw err;
+    } finally {
+        if (conn) return conn.release();
+    }
+});
+
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
