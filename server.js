@@ -89,7 +89,7 @@ app.delete('/cours/:id', async (req, res) => {
         conn = await pool.getConnection();
 
         // create a new query
-        var query = "DELETE FROM cours WHERE id = ?";
+        var query = 'DELETE FROM cours WHERE id = ?';
 
         // execute the query and set the result to a new variable
         var rows = await conn.query(query, [id]);
