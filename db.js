@@ -4,7 +4,7 @@ var mariadb = require('mariadb');
 // create a new connection pool
 const pool = mariadb.createPool({
   host: "127.0.0.1", 
-  user: "jul", 
+  user: "max", 
   password: "studilink",
   database: "demo"
 });
