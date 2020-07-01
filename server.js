@@ -81,7 +81,7 @@ app.post('/cours', async (req, res, next) => {
 
 // Delete request
 
-app.delete('/cours/:id', async (req, res) => {
+app.get('/cours/:id', async (req, res) => {
     let conn;
     try {
         // establish a connection to MariaDB
