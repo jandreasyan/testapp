@@ -6,7 +6,7 @@ const pool = mariadb.createPool({
   host: "127.0.0.1", 
   user: "max", 
   password: "studilink",
-  database: "demo"
+  database: "studibase", connectionLimit: 150
 });
 
 // expose the ability to create new connections

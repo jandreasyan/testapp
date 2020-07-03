@@ -8,14 +8,14 @@ app.use(express.json());
 
 // expose an endpoint "cours"
 // GET (all) request
-app.get('/cours', async (req, res) => {
+app.get('/studibase.group', async (req, res) => {
     let conn;
     try {
         // establish a connection to MariaDB
         conn = await pool.getConnection();
 
         // create a new query
-        var query = "select * from cours";
+        var query = "select * from studibase.group";
 
         // execute the query and set the result to a new variable
         var rows = await conn.query(query);
@@ -33,7 +33,7 @@ app.get('/cours', async (req, res) => {
 
 // GET (one) request
 
-app.get('/cours/:id', async (req, res) => {
+app.get('/studibase.group/:id', async (req, res) => {
 
     let conn;
     try {
@@ -42,7 +42,7 @@ app.get('/cours/:id', async (req, res) => {
         conn = await pool.getConnection();
 
         // create a new query
-        var query = 'select * from cours where id= ?';
+        var query = 'select * from studibase.group where id= ?';
 
         // execute the query and set the result to a new variable
         var rows = await conn.query(query, [id]);
@@ -58,21 +58,17 @@ app.get('/cours/:id', async (req, res) => {
 
 // POST request
 
-app.post('/cours', async (req, res, next) => {
+app.post('/studibase.group', async (req, res, next) => {
 
     conn = await pool.getConnection();
 
-    const category = req.body.category;
+    const category_id = req.body.category_id;
     const title = req.body.title;
-    const memberCount = req.body.memberCount;
-    const day = req.body.day;
-    const likes = req.body.likes;
+    const date = req.body.date;
     const description = req.body.description;
     const place = req.body.place;
-    const time = req.body.time;
-    const imagePath = req.body.imagePath;
 
-    await conn.query("INSERT INTO cours VALUES (null, '" + req.body.category + "', '" + req.body.title + "', '" + req.body.memberCount + "', '" + req.body.day + "', '" + req.body.likes + "','" + req.body.description + "', '" + req.body.place + "', '" + req.body.time + "', '" + req.body.imagePath + "');");
+    await conn.query("INSERT INTO studibase.group VALUES (null, '" + req.body.category_id + "', '" + req.body.title + "', '" + req.body.date + "', '" + req.body.description + "', '" + req.body.place + "');");
 
     res.json({ status: "OK" });
     next();
@@ -81,7 +77,7 @@ app.post('/cours', async (req, res, next) => {
 
 // Delete request
 
-app.get('/cours/:id', async (req, res) => {
+app.delete('/studibase.group/:id', async (req, res) => {
     let conn;
     try {
         // establish a connection to MariaDB
@@ -89,7 +85,7 @@ app.get('/cours/:id', async (req, res) => {
         conn = await pool.getConnection();
 
         // create a new query
-        var query = 'DELETE FROM cours WHERE id = ?';
+        var query = 'DELETE FROM studibase.group WHERE id = ?';
 
         // execute the query and set the result to a new variable
         var rows = await conn.query(query, [id]);
