@@ -83,7 +83,7 @@ app.post('/studibase.group', async (req, res, next) => {
         const title = req.body.title;
         const date = req.body.date;
         const description = req.body.description;
-        const place = req.body.place
+        const place = req.body.place;
         
         await conn.query("INSERT INTO studibase.group VALUES (null, '" + 
         req.body.category_id + "', '" + req.body.title + "', '" + 
