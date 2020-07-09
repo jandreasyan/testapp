@@ -73,7 +73,7 @@ app.get('/studibase.group/:id', async (req, res) => {
 
 // POST request
 
-app.post('/studibase.group', async (req, res, next) => {
+app.post('/studibase.group', async (req, res) => {
 
     let conn;
     try {
@@ -89,12 +89,11 @@ app.post('/studibase.group', async (req, res, next) => {
         req.body.category_id + "', '" + req.body.title + "', '" + 
         req.body.date + "', '" + req.body.description + "', '" + 
         req.body.place + "');");
-        res.json({ status: "OK" });
     }catch (err) {
         throw err;
     }
     finally {   
-        next();
+        res.jon({ status: "OK"});
     }
 
 });
