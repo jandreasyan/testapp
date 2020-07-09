@@ -6,6 +6,33 @@ const port = 5000
 let conn = null;
 app.use(express.json());
 
+// POST request
+app.post('/studibase.group', async (req, res, next) => {
+
+    let conn;
+    try {
+        // establish a connection to MariaDB
+        conn = await pool.getConnection();
+        const category_id = req.body.category_id;
+        const title = req.body.title;
+        const date = req.body.date;
+        const description = req.body.description;
+        const place = req.body.place;
+        
+        await conn.query("INSERT INTO studibase.group VALUES (null, '" + 
+        req.body.category_id + "', '" + req.body.title + "', '" + 
+        req.body.date + "', '" + req.body.description + "', '" + 
+        req.body.place + "');");
+        res.json({ status: "OK" });
+    }catch (err) {
+        throw err;
+    }
+    finally {   
+        next();
+    }
+
+});
+
 // expose an endpoint "cours"
 // GET (all) request
 app.get('/studibase.group', async (req, res) => {
@@ -71,33 +98,7 @@ app.get('/studibase.group/:id', async (req, res) => {
     }
 });
 
-// POST request
 
-app.post('/studibase.group', async (req, res, next) => {
-
-    let conn;
-    try {
-        // establish a connection to MariaDB
-        conn = await pool.getConnection();
-        const category_id = req.body.category_id;
-        const title = req.body.title;
-        const date = req.body.date;
-        const description = req.body.description;
-        const place = req.body.place;
-        
-        await conn.query("INSERT INTO studibase.group VALUES (null, '" + 
-        req.body.category_id + "', '" + req.body.title + "', '" + 
-        req.body.date + "', '" + req.body.description + "', '" + 
-        req.body.place + "');");
-        res.json({ status: "OK" });
-    }catch (err) {
-        throw err;
-    }
-    finally {   
-        next();
-    }
-
-});
 
 
 // Delete request
