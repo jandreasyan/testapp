@@ -29,6 +29,21 @@ app.get('/studibase.group', async (req, res) => {
     }
 });
 
+app.get('/studibase.category', async (req, res) => {
+	let conn;
+	try {
+		conn = await pool.getConnection();
+		var query = "select * from studibase.category";
+		var rows = await conn.query(query);
+
+		res.send(rows);
+	}catch (err){
+		throw err;
+	}finally {
+		if (conn) return conn.release();
+	}
+});
+
 
 
 // GET (one) request
@@ -74,6 +89,7 @@ app.post('/studibase.group', async (req, res, next) => {
     next();
 
 });
+
 
 // Delete request
 
