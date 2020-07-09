@@ -75,18 +75,27 @@ app.get('/studibase.group/:id', async (req, res) => {
 
 app.post('/studibase.group', async (req, res, next) => {
 
-    conn = await pool.getConnection();
-
-    const category_id = req.body.category_id;
-    const title = req.body.title;
-    const date = req.body.date;
-    const description = req.body.description;
-    const place = req.body.place;
-
-    await conn.query("INSERT INTO studibase.group VALUES (null, '" + req.body.category_id + "', '" + req.body.title + "', '" + req.body.date + "', '" + req.body.description + "', '" + req.body.place + "');");
-
-    res.json({ status: "OK" });
-    next();
+    let conn;
+    try {
+        // establish a connection to MariaDB
+        conn = await pool.getConnection();
+        const category_id = req.body.category_id;
+        const title = req.body.title;
+        const date = req.body.date;
+        const description = req.body.description;
+        const place = req.body.place
+        
+        await conn.query("INSERT INTO studibase.group VALUES (null, '" + 
+        req.body.category_id + "', '" + req.body.title + "', '" + 
+        req.body.date + "', '" + req.body.description + "', '" + 
+        req.body.place + "');");
+        res.json({ status: "OK" });
+    }catch (err) {
+        throw err;
+    }
+    finally {   
+        next();
+    }
 
 });
 
