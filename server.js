@@ -19,16 +19,38 @@ app.post('/studibase.group', async (req, res, next) => {
         const date = req.body.date;
         const description = req.body.description;
         const place = req.body.place;
-        
-        await conn.query("INSERT INTO studibase.group VALUES (null, '" + 
-        req.body.category_id + "', '" + req.body.title + "', '" + 
-        req.body.description + "', '" + req.body.place + "', '" + 
+
+        await conn.query("INSERT INTO studibase.group VALUES (null, '" +
+        req.body.category_id + "', '" + req.body.title + "', '" +
+        req.body.description + "', '" + req.body.place + "', '" +
         req.body.date + "');");
         res.json({ status: "OK" });
     }catch (err) {
         throw err;
     }
-    finally {   
+    finally {
+        next();
+    }
+
+});
+
+// POST request
+app.post('/studibase.etudiant', async (req, res, next) => {
+    let conn;
+    try {
+        // establish a connection to MariaDB
+        conn = await pool.getConnection();
+
+        await conn.query("INSERT INTO studibase.etudiant VALUES (null, '" +
+        req.body.email + "', '" + req.body.nom + "', '" +
+        req.body.prenom + "', '" + req.body.bio + "', '" +
+        req.body.userimage_id + "', '" +
+        req.body.avis_id + "' );");
+        res.json({ status: "OK" });
+    }catch (err) {
+        throw err;
+    }
+    finally {
         next();
     }
 
