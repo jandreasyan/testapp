@@ -94,6 +94,27 @@ app.get('/studibase.category', async (req, res) => {
 	}
 });
 
+app.get('/studibase.etudiant', async (req, res) => {
+    let conn;
+    try {
+        // establish a connection to MariaDB
+        conn = await pool.getConnection();
+
+        // create a new query
+        var query = "select * from studibase.etudiant";
+
+        // execute the query and set the result to a new variable
+        var rows = await conn.query(query);
+
+        // return the results
+        res.send(rows);
+    } catch (err) {
+        throw err;
+    } finally {
+        if (conn) return conn.release();
+    }
+});
+
 
 
 // GET (one) request
