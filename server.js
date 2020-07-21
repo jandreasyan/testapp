@@ -4,11 +4,12 @@ const app = express()
 const port = 5000
 
 let conn = null;
+app.use(express.static('public'));
 app.use(express.json());
 
 // POST request
 app.post('/studibase.group', async (req, res, next) => {
-
+    console.log('i am here');
     let conn;
     try {
         // establish a connection to MariaDB
@@ -21,8 +22,8 @@ app.post('/studibase.group', async (req, res, next) => {
         
         await conn.query("INSERT INTO studibase.group VALUES (null, '" + 
         req.body.category_id + "', '" + req.body.title + "', '" + 
-        req.body.date + "', '" + req.body.description + "', '" + 
-        req.body.place + "');");
+        req.body.description + "', '" + req.body.place + "', '" + 
+        req.body.date + "');");
         res.json({ status: "OK" });
     }catch (err) {
         throw err;
