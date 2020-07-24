@@ -45,7 +45,7 @@ app.post('/studibase.etudiant', async (req, res, next) => {
         req.body.email + "', '" + req.body.nom + "', '" +
         req.body.prenom + "', '" + req.body.bio + "', '" +
         req.body.userimage_id + "', '" +
-        req.body.avis_id + "' );");
+        req.body.avis_id + "', '" + req.body.motdepasse + "' );");
         res.json({ status: "OK" });
     }catch (err) {
         throw err;
