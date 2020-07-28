@@ -142,7 +142,30 @@ app.get('/studibase.group/:id', async (req, res) => {
     }
 });
 
+// Delete request
 
+app.update('/studibase.etudiant/:id/:bio', async (req, res) => {
+    let conn;
+    try {
+        // establish a connection to MariaDB
+        const { id } = req.params.id;
+        const { bio } = req.params.bio;
+        conn = await pool.getConnection();
+
+        // create a new query
+        var query = 'UPDATE studibase.etudiant SET bio = ? WHERE id = ?';
+
+        // execute the query and set the result to a new variable
+        var rows = await conn.query(query, [id, bio]);
+
+        // return the results
+        res.send(rows);
+    } catch (err) {
+        throw err;
+    } finally {
+        if (conn) return conn.release();
+    }
+});
 
 
 // Delete request
