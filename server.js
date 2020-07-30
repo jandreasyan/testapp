@@ -34,6 +34,20 @@ app.post('/studibase.group', async (req, res, next) => {
 
 });
 
+app.post('/studibase.membre', async (req, res, next) => {
+	let conn;
+	try{
+		conn = await pool.getConnection();
+		await conn.query("INSERT INTO studibase.membre VALUES (null, '" + req.body.group_id + "', '" + req.body.etudiant_id + "');");
+		res.json({ status: "OK" });
+	}catch(err){
+		throw err;
+	}
+	finally {
+		next();
+	}
+});
+
 // POST request
 app.post('/studibase.etudiant', async (req, res, next) => {
     let conn;
@@ -92,6 +106,22 @@ app.get('/studibase.category', async (req, res) => {
 	}finally {
 		if (conn) return conn.release();
 	}
+
+});
+
+app.get('/studibase.membre', async (req, res) =>{
+	let conn;
+	try{
+		conn = await pool.getConnection();
+		var query = "select * from studibase.membre";
+		var rows = await conn.query(query);
+
+		res.send(rows);
+	}catch (err){
+		throw err;
+	}finally {
+		if (conn) return conn.release();
+	}
 });
 
 app.get('/studibase.etudiant', async (req, res) => {
@@ -142,21 +172,20 @@ app.get('/studibase.group/:id', async (req, res) => {
     }
 });
 
-// Delete request
+// Update request
 
-app.update('/studibase.etudiant/:id/:bio', async (req, res) => {
+app.post('/studibase.etudiant/:id', async (req, res) => {
     let conn;
     try {
         // establish a connection to MariaDB
-        const { id } = req.params.id;
-        const { bio } = req.params.bio;
+        const { id } = req.params;
         conn = await pool.getConnection();
 
         // create a new query
-        var query = 'UPDATE studibase.etudiant SET bio = ? WHERE id = ?';
+        var query = 'UPDATE studibase.etudiant SET studibase.etudiant.bio = ?  WHERE id = ?';
 
         // execute the query and set the result to a new variable
-        var rows = await conn.query(query, [id, bio]);
+        var rows = await conn.query(query, [req.body.bio, id]);
 
         // return the results
         res.send(rows);
@@ -192,6 +221,23 @@ app.delete('/studibase.group/:id', async (req, res) => {
     }
 });
 
+
+app.delete('/studibase.membre/:id', async (req, res) => {
+	let conn;
+	try {
+		const {id} = req.params;
+		conn = await pool.getConnection();
+
+		var query = "DELETE FROM studibase.membre WHERE id = ?";
+		var rows = await conn.query(query, [id]);
+
+		res.send(rows);
+	}catch (err){
+		throw err;
+	}finally {
+		if (conn) return conn.release();
+	}
+});
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
