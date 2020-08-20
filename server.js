@@ -70,6 +70,22 @@ app.post('/studibase.etudiant', async (req, res, next) => {
 
 });
 
+// POST Avis
+
+app.post('/studibase.avis', async (req, res, next) => {
+	let conn;
+	try {
+		conn = await pool.getConnection();
+
+		await conn.query("INSERT INTO studibase.avis VALUES (null, '" + req.body.description + "', '" + req.body.id_from + "', '" + req.body.etudiant_id + "', '" + req.body.nbr_etoile + "');");
+		res.json({status: "OK" });
+	}catch (err);
+		throw err;
+	}finally {
+		next();
+	}
+});
+
 // expose an endpoint "cours"
 // GET (all) request
 app.get('/studibase.group', async (req, res) => {
@@ -145,7 +161,20 @@ app.get('/studibase.etudiant', async (req, res) => {
     }
 });
 
+app.get('/studibase.avis', async (req, res) => {
+	let conn;
+	try {
+		conn = await pool.getConnection();
+		var query = 'select * from studibase.avis';
+		var rows = await conn.query(query);
 
+		res.send(rows);
+	}catch (err) {
+		throw err;
+	}finally {
+		if (conn) return conn.release();
+	}
+});
 
 // GET (one) request
 
