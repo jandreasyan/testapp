@@ -40,7 +40,7 @@ app.post('/studibase.membre', async (req, res, next) => {
 		conn = await pool.getConnection();
 		await conn.query("INSERT INTO studibase.membre VALUES (null, '" + req.body.group_id + "', '" + req.body.etudiant_id + "');");
 		res.json({ status: "OK" });
-	}catch(err){
+	}catch (err){
 		throw err;
 	}
 	finally {
@@ -79,7 +79,7 @@ app.post('/studibase.avis', async (req, res, next) => {
 
 		await conn.query("INSERT INTO studibase.avis VALUES (null, '" + req.body.description + "', '" + req.body.id_from + "', '" + req.body.etudiant_id + "', '" + req.body.nbr_etoile + "');");
 		res.json({status: "OK" });
-	}catch (err);
+	}catch (err){
 		throw err;
 	}finally {
 		next();
@@ -258,6 +258,23 @@ app.delete('/studibase.membre/:id', async (req, res) => {
 		conn = await pool.getConnection();
 
 		var query = "DELETE FROM studibase.membre WHERE id = ?";
+		var rows = await conn.query(query, [id]);
+
+		res.send(rows);
+	}catch (err){
+		throw err;
+	}finally {
+		if (conn) return conn.release();
+	}
+});
+
+app.delete('/studibase.avis/:id', async (req, res) => {
+	let conn;
+	try{
+		const {id} = req.params;
+		conn = await pool.getConnection();
+
+		var query = "DELETE FROM studibase.avis WHERE id = ?";
 		var rows = await conn.query(query, [id]);
 
 		res.send(rows);
