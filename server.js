@@ -125,6 +125,21 @@ app.get('/studibase.category', async (req, res) => {
 
 });
 
+app.get('/studibase.userimage', async (req, res) => {
+	let conn;
+	try {
+		conn = await pool.getConnection();
+		var query = "select * from studibase.userimage";
+		var rows = await conn.query(query);
+
+		res.send(rows);
+	}catch (err){
+		throw err;
+	}finally {
+		if (conn) return conn.release();
+	}
+});
+
 app.get('/studibase.membre', async (req, res) =>{
 	let conn;
 	try{
@@ -211,10 +226,10 @@ app.post('/studibase.etudiant/:id', async (req, res) => {
         conn = await pool.getConnection();
 
         // create a new query
-        var query = 'UPDATE studibase.etudiant SET studibase.etudiant.bio = ?  WHERE id = ?';
+        var query = 'UPDATE studibase.etudiant SET studibase.etudiant.bio = ?, studibase.etudiant.userimage_id =?  WHERE id = ?';
 
         // execute the query and set the result to a new variable
-        var rows = await conn.query(query, [req.body.bio, id]);
+        var rows = await conn.query(query, [req.body.bio, req.body.userimage_id, id]);
 
         // return the results
         res.send(rows);
